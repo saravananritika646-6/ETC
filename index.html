@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Expense Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 20px; background: #f0f4f8; }
+    h1 { text-align: center; color: #2c3e50; }
+    form { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    input, select, button { padding: 8px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; }
+    input:focus, select:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52,152,219,0.5); }
+    button { background-color: #3498db; color: white; border: none; cursor: pointer; transition: background-color 0.3s ease; }
+    button:hover { background-color: #2980b9; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    th { background-color: #3498db; color: white; padding: 10px; }
+    td { border-bottom: 1px solid #ddd; padding: 10px; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    tr:hover { background-color: #f1f1f1; }
+    #charts { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 30px; background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    canvas { max-width: 300px; background: #fafafa; border-radius: 8px; padding: 10px; box-shadow: inset 0 0 5px rgba(0,0,0,0.05); }
+  </style>
+</head>
+<body>
+  <h1>Expense Tracker 💰</h1>
+
+  <form id="expense-form">
+    <input type="text" id="title" placeholder="Title" required>
+    <input type="number" id="amount" placeholder="Amount" required>
+    <select id="category">
+      <option>Food</option>
+      <option>Travel</option>
+      <option>Shopping</option>
+      <option>Bills</option>
+      <option>Other</option>
+    </select>
+    <input type="date" id="date" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <div style="margin-bottom: 20px;">
+    <label for="filter-category">Filter by Category:</label>
+    <select id="filter-category">
+      <option value="">All</option>
+      <option>Food</option>
+      <option>Travel</option>
+      <option>Shopping</option>
+      <option>Bills</option>
+      <option>Other</option>
+    </select>
+
+    <label for="filter-month" style="margin-left: 20px;">Filter by Month:</label>
+    <input type="month" id="filter-month" />
+
+    <label for="sort-by" style="margin-left: 20px;">Sort by:</label>
+    <select id="sort-by">
+      <option value="">None</option>
+      <option value="date-asc">Date Ascending</option>
+      <option value="date-desc">Date Descending</option>
+      <option value="amount-asc">Amount Ascending</option>
+      <option value="amount-desc">Amount Descending</option>
+    </select>
+    
+    <button id="clear-filters" style="margin-left: 20px;">Clear Filters</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="expense-list"></tbody>
+  </table>
+
+  <div id="charts">
+    <div style="font-weight:bold; font-size:18px; margin-bottom: 10px;">Total Expenses: ₹<span id="total-expense">0</span></div>
+    <canvas id="pieChart"></canvas>
+    <canvas id="barChart"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
